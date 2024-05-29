@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "bank-viget"
+name = "bank-widget"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Kirill Barkhatov <kirill_barkhatov@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
