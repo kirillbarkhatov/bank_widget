@@ -9,6 +9,6 @@ def masked_account_number(account_number: int) -> str:
 
     return f"**{str(account_number)[-4:]}"
 
-
-print(masked_card_number(7000792289606361))
-print(masked_account_number(73654108430135874305))
+#для проверки
+# print(masked_card_number(7000792289606361))
+# print(masked_account_number(73654108430135874305))
