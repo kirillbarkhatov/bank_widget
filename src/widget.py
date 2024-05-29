@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from masks import masked_card_number, masked_account_number
 
 def masked_numbers(card_or_account: str) -> str:
@@ -7,6 +9,12 @@ def masked_numbers(card_or_account: str) -> str:
         return f"{card_or_account[:5]}{masked_account_number(card_or_account[5:])}"
     return f"{card_or_account[:-16]}{masked_card_number(card_or_account[-16:])}"
 
+
+def convert_date(date_iso: str) -> str:
+    """Функция вернет дату в формате ДД.ММ.ГГГГ"""
+
+    date = datetime.strptime(date_iso, "%Y-%m-%dT%H:%M:%S.%f")
+    return datetime.strftime(date, "%d.%m.%Y")
 
 
 #тестирование
@@ -22,3 +30,6 @@ if __name__ in '__main__':
 
     for data in test_data:
         print(masked_numbers(data))
+
+    test_date = '2018-07-11T02:26:18.671407'
+    print(convert_date(test_date))
