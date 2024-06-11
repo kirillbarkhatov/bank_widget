@@ -101,4 +101,23 @@ for _ in range(2):
 # 939719570
 # 142264268
 
+def transaction_descriptions(transactions: list[dict]) -> str:
+    """Функция - генератор, который принимает список словарей
+    и возвращает описание каждой операции по очереди
+    """
 
+    for transaction in transactions:
+        yield transaction["description"]
+
+
+descriptions = transaction_descriptions(transactions)
+
+for _ in range(5):
+    print(next(descriptions))
+
+
+# Перевод организации
+# Перевод со счета на счет
+# Перевод со счета на счет
+# Перевод с карты на карту
+# Перевод организации
