@@ -133,5 +133,5 @@ def card_number_generator(start: int, end: int) -> str:
         yield f'{full_card_number[:4]} {full_card_number[4:8]} {full_card_number[8:12]} {full_card_number[12:]}'
         card_number += 1
 
-for card_number in card_number_generator(13, 20):
+for card_number in card_number_generator(1, 5):
     print(card_number)
