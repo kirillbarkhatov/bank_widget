@@ -41,4 +41,3 @@ def log(filename: str | None = None) -> Callable:
         return inner
 
     return wrapper
-
