@@ -42,10 +42,3 @@ def log(filename: str | None = None) -> Callable:
 
     return wrapper
 
-
-# @log(filename="mylog.txt")
-# def my_function(x, y):
-#     return x + y
-#
-#
-# print(my_function(1, 2))
