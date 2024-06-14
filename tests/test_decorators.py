@@ -1,4 +1,5 @@
 import pytest
+
 from src.decorators import log
 
 
@@ -6,6 +7,7 @@ def test_log_in_console_decorator(capsys):
     @log()
     def my_function(x, y):
         return x + y
+
     my_function(1, 2)
     captured = capsys.readouterr()
     assert captured.out == "my_function ok\n"
@@ -13,15 +15,19 @@ def test_log_in_console_decorator(capsys):
     with pytest.raises(Exception):
         my_function(1, "2")
     captured = capsys.readouterr()
-    assert captured.out == "my_function error: TypeError (unsupported operand type(s) for +: 'int' and 'str'). Inputs: (1, '2'), {}\n"
-
+    assert (
+        captured.out
+        == "my_function error: TypeError (unsupported operand type(s) for +: 'int' and 'str'). Inputs: (1, '2'), {}\n"
+    )
 
 
 def test_log_in_file_decorator():
-    filename = "test_mylog.txt"
+    filename = "tests/test_mylog.txt"
+
     @log(filename)
     def my_function(x, y):
         return x + y
+
     my_function(1, 2)
     with open(filename, "r") as f:
         last_log = f.readlines()[-1]
@@ -31,7 +37,7 @@ def test_log_in_file_decorator():
         my_function(1, "2")
     with open(filename, "r") as f:
         last_log = f.readlines()[-1]
-    assert last_log == "my_function error: TypeError (unsupported operand type(s) for +: 'int' and 'str'). Inputs: (1, '2'), {}"
-
-
-
+    assert (
+        last_log
+        == "my_function error: TypeError (unsupported operand type(s) for +: 'int' and 'str'). Inputs: (1, '2'), {}"
+    )
