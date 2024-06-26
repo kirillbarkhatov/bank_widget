@@ -20,15 +20,17 @@
 ## Использование:
 
 На текущий момент подготовлено к использованию 7 модулей:
-1. decorators
-2. external_api
-3. generators
-4. masks
-5. processing
-6. utils
-7. widget
+1. `decorators`
+2. `external_api`
+3. `generators`
+4. `masks`
+5. `processing`
+6. `utils`
+7. `widget`
 
 Описания функций приведены в докстрингах
+
+Для модулей `masks` и `utils` реализовано логирование
 
 ## Документация:
 
