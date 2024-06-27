@@ -19,3 +19,23 @@ def test_masked_account_number(account_number):
 
 def test_masked_card_number(card_number):
     assert masked_card_number(card_number) == "7000 79** **** 6361"
+
+
+def test_masked_card_number_error(card_number):
+    with pytest.raises(Exception) as ex:
+        masked_card_number("card_number")
+    assert str(ex.value) == "Передан неверный формат карты"
+
+    with pytest.raises(Exception) as ex:
+        masked_card_number("12345678")
+    assert str(ex.value) == "Передан неверный формат карты"
+
+
+def test_masked_account_number_error(account_number):
+    with pytest.raises(Exception) as ex:
+        masked_account_number("account_number")
+    assert str(ex.value) == "Передан неверный формат счета"
+
+    with pytest.raises(Exception) as ex:
+        masked_account_number("12345678")
+    assert str(ex.value) == "Передан неверный формат счета"

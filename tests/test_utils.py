@@ -69,3 +69,7 @@ def test_get_transaction_amount_currency(transaction_usd):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = {"rates": {"RUB": 100}}
         assert get_transaction_amount(transaction_usd) == 822137.00
+
+    with pytest.raises(Exception) as ex:
+        get_transaction_amount("transaction_usd")
+    assert str(ex.value) == "Не удалось обработать транзакцию - проверьте формат данных"
