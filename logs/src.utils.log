@@ -1,0 +1,10 @@
+2024-06-27 23:15:29,628 src.utils INFO: Получен список транзакций из файла /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/operations.json
+2024-06-27 23:15:29,629 src.utils INFO: Получен список транзакций из файла /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/operations.json
+2024-06-27 23:15:29,629 src.utils INFO: В файле /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/operations.json список транзакций отсутствует
+2024-06-27 23:15:29,629 src.utils INFO: Получен список транзакций из файла /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/operations.json
+2024-06-27 23:15:29,629 src.utils INFO: Файл /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/operations.json пустой - список транзакций отсутствует
+2024-06-27 23:15:29,630 src.utils INFO: Файл /Users/kirill_barkhatov/PycharmProjects/bank_widget/data/failure_test.json не найден
+2024-06-27 23:15:29,630 src.utils INFO: Сумма транзакции получена успешно
+2024-06-27 23:15:29,631 src.utils INFO: Сумма транзакции получена успешно
+2024-06-27 23:15:29,632 src.utils INFO: Сумма транзакции успешно получена и сконвертирована
+2024-06-27 23:15:29,632 src.utils ERROR: Не удалось обработать транзакцию - проверьте формат данных
