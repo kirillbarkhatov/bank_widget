@@ -1,6 +1,8 @@
 import json
 import logging
 
+import pandas as pd
+
 from src.external_api import currency_converter
 
 # Настройки логгирования
@@ -34,6 +36,64 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
         return []
 
 
+def get_transactions_from_csv(file_path: str) -> list[dict]:
+    """Функция принимает на вход путь до CSV-файла и возвращает список словарей с данными о финансовых транзакциях.
+    Если файл не найден, функция возвращает пустой список.
+    """
+    try:
+        transactions_df = pd.read_csv(file_path, delimiter=";")
+
+        # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
+        transactions_df.date = transactions_df.date.str.replace("Z", ":000000")
+
+        transactions_dict = transactions_df.to_dict(orient="records")
+
+        # Приводим список словарей к единому формату
+        for i in range(len(transactions_dict)):
+            transactions_dict[i]["operationAmount"] = {
+                "amount": transactions_dict[i].pop("amount"),
+                "currency": {
+                    "name": transactions_dict[i].pop("currency_name"),
+                    "code": transactions_dict[i].pop("currency_code"),
+                },
+            }
+        logger.info(f"Получен список транзакций из файла {file_path}")
+        return transactions_dict
+
+    except FileNotFoundError:
+        logger.info(f"Файл {file_path} не найден")
+        return []
+
+
+def get_transactions_from_xls(file_path: str) -> list[dict]:
+    """Функция принимает на вход путь до CSV-файла и возвращает список словарей с данными о финансовых транзакциях.
+    Если файл не найден, функция возвращает пустой список.
+    """
+    try:
+        transactions_df = pd.read_excel(file_path)
+        print(transactions_df.iloc[:5].to_dict(orient="list"))
+        # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
+        transactions_df.date = transactions_df.date.str.replace("Z", ":000000")
+
+        transactions_dict = transactions_df.to_dict(orient="records")
+
+        # Приводим список словарей к единому формату
+        for i in range(len(transactions_dict)):
+            transactions_dict[i]["operationAmount"] = {
+                "amount": transactions_dict[i].pop("amount"),
+                "currency": {
+                    "name": transactions_dict[i].pop("currency_name"),
+                    "code": transactions_dict[i].pop("currency_code"),
+                },
+            }
+        logger.info(f"Получен список транзакций из файла {file_path}")
+        return transactions_dict
+
+    except FileNotFoundError:
+        logger.info(f"Файл {file_path} не найден")
+        return []
+
+
 def get_transaction_amount(transaction: dict) -> float:
     """Функция принимает на вход транзакцию и возвращает сумму транзакции (amount) в рублях, тип данных — float.
     Если транзакция была в USD или EUR, происходит обращение к внешнему API для получения текущего курса валют
@@ -54,3 +114,8 @@ def get_transaction_amount(transaction: dict) -> float:
     except Exception:
         logger.error("Не удалось обработать транзакцию - проверьте формат данных")
         raise Exception("Не удалось обработать транзакцию - проверьте формат данных")
+
+
+# if __name__ in "__main__":
+#     get_transactions_from_csv(Path.cwd().parent.joinpath("data", "transactions.csv"))
+#     get_transactions_from_xls(Path.cwd().parent.joinpath("data", "transactions_excel.xlsx"))
