@@ -1,9 +1,7 @@
 import json
 import logging
-import pandas as pd
-from pathlib import Path
-from datetime import datetime
 
+import pandas as pd
 
 from src.external_api import currency_converter
 
@@ -40,8 +38,8 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
 
 def get_transactions_from_csv(file_path: str) -> list[dict]:
     """Функция принимает на вход путь до CSV-файла и возвращает список словарей с данными о финансовых транзакциях.
-        Если файл не найден, функция возвращает пустой список.
-        """
+    Если файл не найден, функция возвращает пустой список.
+    """
     try:
         transactions_df = pd.read_csv(file_path, delimiter=";")
 
@@ -56,8 +54,8 @@ def get_transactions_from_csv(file_path: str) -> list[dict]:
                 "amount": transactions_dict[i].pop("amount"),
                 "currency": {
                     "name": transactions_dict[i].pop("currency_name"),
-                    "code": transactions_dict[i].pop("currency_code")
-                  }
+                    "code": transactions_dict[i].pop("currency_code"),
+                },
             }
         logger.info(f"Получен список транзакций из файла {file_path}")
         return transactions_dict
@@ -69,8 +67,8 @@ def get_transactions_from_csv(file_path: str) -> list[dict]:
 
 def get_transactions_from_xls(file_path: str) -> list[dict]:
     """Функция принимает на вход путь до CSV-файла и возвращает список словарей с данными о финансовых транзакциях.
-        Если файл не найден, функция возвращает пустой список.
-        """
+    Если файл не найден, функция возвращает пустой список.
+    """
     try:
         transactions_df = pd.read_excel(file_path)
         print(transactions_df.iloc[:5].to_dict(orient="list"))
@@ -85,8 +83,8 @@ def get_transactions_from_xls(file_path: str) -> list[dict]:
                 "amount": transactions_dict[i].pop("amount"),
                 "currency": {
                     "name": transactions_dict[i].pop("currency_name"),
-                    "code": transactions_dict[i].pop("currency_code")
-                }
+                    "code": transactions_dict[i].pop("currency_code"),
+                },
             }
         logger.info(f"Получен список транзакций из файла {file_path}")
         return transactions_dict

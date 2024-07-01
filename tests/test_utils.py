@@ -2,10 +2,13 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-import pandas as pd
 
-from src.utils import get_transaction_amount, get_transactions_from_json, get_transactions_from_xls, \
-    get_transactions_from_csv
+from src.utils import (
+    get_transaction_amount,
+    get_transactions_from_csv,
+    get_transactions_from_json,
+    get_transactions_from_xls,
+)
 
 
 @pytest.fixture
@@ -43,6 +46,7 @@ def path_file_failure():
 #             'description': ['Перевод организации', 'Перевод с карты на карту', 'Перевод с карты на карту',
 #                             'Перевод с карты на карту', 'Открытие вклада']}
 #     return pd.DataFrame(transactions)
+
 
 # Тест при условии существования файла
 def test_get_transactions_from_json_file_exist(path_file_success):
