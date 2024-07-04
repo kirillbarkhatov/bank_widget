@@ -27,7 +27,7 @@ def search_by_description(operations: list[dict], user_search: str) -> list[dict
     и возвращает список словарей, у которых в описании есть данная строка
     """
 
-    return [operation for operation in operations if re.search(user_search, operation["description"])]
+    return [operation for operation in operations if re.search(user_search.lower(), operation["description"].lower())]
 
 
 def get_count_operations_by_category(operations: list[dict], list_of_category: list) -> dict:
