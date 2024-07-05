@@ -5,7 +5,7 @@ from src.generators import filter_by_currency, transaction_descriptions, card_nu
 from src.decorators import log
 from src.external_api import currency_converter
 from src.utils import get_transactions_from_xls, get_transactions_from_csv, get_transactions_from_json, get_transaction_amount
-
+import json
 
 def greetings() -> list[dict]:
     """Приветствие пользователя, выбор какой файл прочитать"""
@@ -20,7 +20,7 @@ def greetings() -> list[dict]:
         """
     )
 
-    user_choice = input("Пользователь: ")
+    user_choice = "1" #input("Пользователь: ")
 
     match user_choice:
         case "1":
@@ -47,7 +47,7 @@ def choice_state(operations: list[dict]) -> list[dict]:
         """
     )
 
-    user_input = input("Пользователь: ").upper()
+    user_input = "PENDING" #input("Пользователь: ").upper()
 
     if user_input in ["EXECUTED", "CANCELED", "PENDING"]:
         print(f'Программа: Операции отфильтрованы по статусу "{user_input}"\n')
@@ -63,11 +63,11 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("Программа: Отсортировать операции по дате? Да/Нет")
-        user_answer = input("Пользователь: ").lower()
+        user_answer = "да" #input("Пользователь: ").lower()
         if user_answer == "да":
             while True:
                 print("\nПрограмма: Отсортировать по возрастанию или по убыванию? ")
-                user_answer = input("Пользователь: ").lower()
+                user_answer = "по убыванию" #input("Пользователь: ").lower()
                 if user_answer == "по возрастанию":
                     operations_processing = sort_by_date(operations, False)
                     break
@@ -85,7 +85,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("\nПрограмма: Выводить только рублевые тразакции? Да/Нет ")
-        user_answer = input("Пользователь: ").lower()
+        user_answer = "да" #input("Пользователь: ").lower()
         if user_answer == "да":
             operations_processing = [tr for tr in filter_by_currency(operations_processing, "RUB")]
             break
@@ -96,7 +96,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет ")
-        user_answer = input("Пользователь: ").lower()
+        user_answer = "нет"#input("Пользователь: ").lower()
         if user_answer == "да":
             print("\nПрограмма: введите слово для фильтрации")
             filter_input = input("Пользователь: ")
@@ -113,17 +113,21 @@ def user_settings(operations: list[dict]) -> list[dict]:
 def result_printing(operations: list[dict]) -> None:
     """Вывод результатов"""
 
-    print("Программа: Распечатываю итоговый список транзакций...\n2")
-    print(f"Программа: Всего банковских операций в выборке: {len(operations)}")
+    print("Программа: Распечатываю итоговый список транзакций...\n")
+    if len(operations) == 0:
+        print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+    else:
+        print(f"Программа: Всего банковских операций в выборке: {len(operations)}")
 
-    for operation in operations:
-        print(f'\n2{convert_date(operation["date"])} {operation["description"]}')
-        if (operation.get('from', 0) == 0) or (operation.get('from', 0) is None):
-            print(masked_numbers(operation["to"]))
-        else:
-            print(f'{masked_numbers(operation["from"])} -> {masked_numbers(operation["to"])}')
+        for operation in operations:
+            print(f'\n{convert_date(operation["date"])} {operation["description"]}')
+            if (operation.get('from', 0) == 0) or (operation.get('from', 0) is None) or (operation.get('from', 0) == "NaN"):
+                print(masked_numbers(operation["to"]))
+            else:
+                print(f'{masked_numbers(operation["from"])} -> {masked_numbers(operation["to"])}')
 
-        print(f"Сумма {operation['operationAmount']['amount']} {operation["operationAmount"]["currency"]["code"]}")
+            print(f"Сумма {operation['operationAmount']['amount']} {operation["operationAmount"]["currency"]["code"]}")
+
 
 
 
