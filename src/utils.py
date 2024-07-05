@@ -20,8 +20,9 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
     """
 
     try:
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             transactions = json.load(file)
+            transactions = [transaction for transaction in transactions if transaction != {}]
         logger.info(f"Получен список транзакций из файла {file_path}")
         if transactions == "":
             logger.info(f"Файл {file_path} пустой - список транзакций отсутствует")
@@ -42,9 +43,9 @@ def get_transactions_from_csv(file_path: str) -> list[dict]:
     """
     try:
         transactions_df = pd.read_csv(file_path, delimiter=";")
-
+        transactions_df = transactions_df.fillna(0)
         # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
-        transactions_df.date = transactions_df.date.str.replace("Z", ":000000")
+        transactions_df.date = transactions_df.date.str.replace("Z", ".000000")
 
         transactions_dict = transactions_df.to_dict(orient="records")
 
@@ -71,9 +72,10 @@ def get_transactions_from_xls(file_path: str) -> list[dict]:
     """
     try:
         transactions_df = pd.read_excel(file_path)
-        print(transactions_df.iloc[:5].to_dict(orient="list"))
+        transactions_df = transactions_df.fillna(0)
+        # print(transactions_df.iloc[:5].to_dict(orient="list"))
         # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
-        transactions_df.date = transactions_df.date.str.replace("Z", ":000000")
+        transactions_df.date = transactions_df.date.str.replace("Z", ".000000")
 
         transactions_dict = transactions_df.to_dict(orient="records")
 
@@ -117,5 +119,6 @@ def get_transaction_amount(transaction: dict) -> float:
 
 
 # if __name__ in "__main__":
+
 #     get_transactions_from_csv(Path.cwd().parent.joinpath("data", "transactions.csv"))
 #     get_transactions_from_xls(Path.cwd().parent.joinpath("data", "transactions_excel.xlsx"))
