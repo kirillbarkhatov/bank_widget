@@ -20,7 +20,7 @@ def greetings() -> list[dict]:
         """
     )
 
-    user_choice = "1" #input("Пользователь: ")
+    user_choice = input("Пользователь: ")
 
     match user_choice:
         case "1":
@@ -47,7 +47,7 @@ def choice_state(operations: list[dict]) -> list[dict]:
         """
     )
 
-    user_input = "PENDING" #input("Пользователь: ").upper()
+    user_input = input("Пользователь: ").upper()
 
     if user_input in ["EXECUTED", "CANCELED", "PENDING"]:
         print(f'Программа: Операции отфильтрованы по статусу "{user_input}"\n')
@@ -63,7 +63,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("Программа: Отсортировать операции по дате? Да/Нет")
-        user_answer = "да" #input("Пользователь: ").lower()
+        user_answer = input("Пользователь: ").lower()
         if user_answer == "да":
             while True:
                 print("\nПрограмма: Отсортировать по возрастанию или по убыванию? ")
@@ -85,7 +85,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("\nПрограмма: Выводить только рублевые тразакции? Да/Нет ")
-        user_answer = "да" #input("Пользователь: ").lower()
+        user_answer = input("Пользователь: ").lower()
         if user_answer == "да":
             operations_processing = [tr for tr in filter_by_currency(operations_processing, "RUB")]
             break
@@ -96,7 +96,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
 
     while True:
         print("\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет ")
-        user_answer = "нет"#input("Пользователь: ").lower()
+        user_answer = input("Пользователь: ").lower()
         if user_answer == "да":
             print("\nПрограмма: введите слово для фильтрации")
             filter_input = input("Пользователь: ")
