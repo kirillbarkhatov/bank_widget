@@ -20,8 +20,9 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
     """
 
     try:
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             transactions = json.load(file)
+            transactions = [transaction for transaction in transactions if transaction != {}]
         logger.info(f"Получен список транзакций из файла {file_path}")
         if transactions == "":
             logger.info(f"Файл {file_path} пустой - список транзакций отсутствует")
@@ -118,5 +119,6 @@ def get_transaction_amount(transaction: dict) -> float:
 
 
 # if __name__ in "__main__":
+
 #     get_transactions_from_csv(Path.cwd().parent.joinpath("data", "transactions.csv"))
 #     get_transactions_from_xls(Path.cwd().parent.joinpath("data", "transactions_excel.xlsx"))
