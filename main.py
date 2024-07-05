@@ -1,18 +1,15 @@
-from src.masks import masked_account_number, masked_card_number
-from src.widget import masked_numbers, convert_date
-from src.processing import filter_by_state, sort_by_date, get_count_operations_by_category, search_by_description
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
-from src.decorators import log
-from src.external_api import currency_converter
-from src.utils import get_transactions_from_xls, get_transactions_from_csv, get_transactions_from_json, get_transaction_amount
-import json
+from src.generators import filter_by_currency
+from src.processing import filter_by_state, search_by_description, sort_by_date
+from src.utils import get_transactions_from_csv, get_transactions_from_json, get_transactions_from_xls
+from src.widget import convert_date, masked_numbers
+
 
 def greetings() -> list[dict]:
     """Приветствие пользователя, выбор какой файл прочитать"""
 
     print(
         """
-Программа: Привет! Добро пожаловать в программу работы с банковскими транзакциями. 
+Программа: Привет! Добро пожаловать в программу работы с банковскими транзакциями.
 Выберите необходимый пункт меню:
 1. Получить информацию о транзакциях из JSON-файла
 2. Получить информацию о транзакциях из CSV-файла
@@ -42,7 +39,7 @@ def choice_state(operations: list[dict]) -> list[dict]:
 
     print(
         """
-Программа: Введите статус, по которому необходимо выполнить фильтрацию. 
+Программа: Введите статус, по которому необходимо выполнить фильтрацию.
 Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING
         """
     )
@@ -53,8 +50,7 @@ def choice_state(operations: list[dict]) -> list[dict]:
         print(f'Программа: Операции отфильтрованы по статусу "{user_input}"\n')
         return filter_by_state(operations, user_input)
 
-
-    print(f'Программа: Статус операции {user_input} недоступен.')
+    print(f"Программа: Статус операции {user_input} недоступен.")
     return choice_state(operations)
 
 
@@ -67,7 +63,7 @@ def user_settings(operations: list[dict]) -> list[dict]:
         if user_answer == "да":
             while True:
                 print("\nПрограмма: Отсортировать по возрастанию или по убыванию? ")
-                user_answer = "по убыванию" #input("Пользователь: ").lower()
+                user_answer = "по убыванию"  # input("Пользователь: ").lower()
                 if user_answer == "по возрастанию":
                     operations_processing = sort_by_date(operations, False)
                     break
@@ -121,7 +117,11 @@ def result_printing(operations: list[dict]) -> None:
 
         for operation in operations:
             print(f'\n{convert_date(operation["date"])} {operation["description"]}')
-            if (operation.get('from', 0) == 0) or (operation.get('from', 0) is None) or (operation.get('from', 0) == "NaN"):
+            if (
+                (operation.get("from", 0) == 0)
+                or (operation.get("from", 0) is None)
+                or (operation.get("from", 0) == "NaN")
+            ):
                 print(masked_numbers(operation["to"]))
             else:
                 print(f'{masked_numbers(operation["from"])} -> {masked_numbers(operation["to"])}')
@@ -129,29 +129,8 @@ def result_printing(operations: list[dict]) -> None:
             print(f"Сумма {operation['operationAmount']['amount']} {operation["operationAmount"]["currency"]["code"]}")
 
 
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     operations_from_file = greetings()
     operations_by_state = choice_state(operations_from_file)
     operations_for_print = user_settings(operations_by_state)
     result_printing(operations_for_print)
-
-
-# print(f"`{masked_card_number.__name__}`", masked_card_number.__doc__)
-# print(f"`{masked_account_number.__name__}`", masked_account_number.__doc__)
-# print(f"`{masked_numbers.__name__}`", masked_numbers.__doc__)
-# print(f"`{convert_date.__name__}`", convert_date.__doc__)
-# print(f"`{filter_by_state.__name__}`", sort_by_date.__doc__)
-# print(f"`{filter_by_currency.__name__}`", filter_by_currency.__doc__)
-# print(f"`{transaction_descriptions.__name__}`", transaction_descriptions.__doc__)
-# print(f"`{card_number_generator.__name__}`", card_number_generator.__doc__)
-# print(f"`{log.__name__}`", log.__doc__)
-# print(f"`{currency_converter.__name__}`", currency_converter.__doc__)
-# print(f"`{get_transactions_from_xls.__name__}`", get_transactions_from_xls.__doc__)
-# print(f"`{get_transactions_from_csv.__name__}`", get_transactions_from_csv.__doc__)
-# print(f"`{get_transactions_from_json.__name__}`", get_transactions_from_json.__doc__)
-# print(f"`{get_transaction_amount.__name__}`", get_transaction_amount.__doc__)
-
-

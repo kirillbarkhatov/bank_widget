@@ -3,12 +3,8 @@ from unittest.mock import patch
 
 import pytest
 
-from src.utils import (
-    get_transaction_amount,
-    get_transactions_from_csv,
-    get_transactions_from_json,
-    get_transactions_from_xls,
-)
+from src.utils import (get_transaction_amount, get_transactions_from_csv, get_transactions_from_json,
+                       get_transactions_from_xls)
 
 
 @pytest.fixture
