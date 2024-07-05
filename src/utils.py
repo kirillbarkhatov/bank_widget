@@ -22,7 +22,7 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             transactions = json.load(file)
-            transactions = [transaction for transaction in transactions if transaction != {}]
+
         logger.info(f"Получен список транзакций из файла {file_path}")
         if transactions == "":
             logger.info(f"Файл {file_path} пустой - список транзакций отсутствует")
@@ -30,6 +30,7 @@ def get_transactions_from_json(file_path: str) -> list[dict]:
         if type(transactions) is not list:
             logger.info(f"В файле {file_path} список транзакций отсутствует")
             return []
+        transactions = [transaction for transaction in transactions if transaction != {}]
         return transactions
 
     except FileNotFoundError:
