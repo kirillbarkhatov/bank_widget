@@ -42,7 +42,7 @@ def get_transactions_from_csv(file_path: str) -> list[dict]:
     """
     try:
         transactions_df = pd.read_csv(file_path, delimiter=";")
-
+        transactions_df = transactions_df.fillna(0)
         # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
         transactions_df.date = transactions_df.date.str.replace("Z", ".000000")
 
@@ -71,7 +71,8 @@ def get_transactions_from_xls(file_path: str) -> list[dict]:
     """
     try:
         transactions_df = pd.read_excel(file_path)
-        print(transactions_df.iloc[:5].to_dict(orient="list"))
+        transactions_df = transactions_df.fillna(0)
+        # print(transactions_df.iloc[:5].to_dict(orient="list"))
         # Приводим дату к формату "%Y-%m-%dT%H:%M:%S.%f" для совместимости с функцией convert_date из модуля widget.py
         transactions_df.date = transactions_df.date.str.replace("Z", ".000000")
 
