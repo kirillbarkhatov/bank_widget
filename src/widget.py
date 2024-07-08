@@ -7,8 +7,8 @@ def masked_numbers(card_or_account: str) -> str:
     """Функция принимает данные карты или счета и маскирует часть их номера"""
 
     if card_or_account[:4] == "Счет":
-        return f"{card_or_account[:5]}{masked_account_number(int(card_or_account[5:]))}"
-    return f"{card_or_account[:-16]}{masked_card_number(int(card_or_account[-16:]))}"
+        return f"{card_or_account[:5]}{masked_account_number((card_or_account[5:]))}"
+    return f"{card_or_account[:-16]}{masked_card_number((card_or_account[-16:]))}"
 
 
 def convert_date(date_iso: str) -> str:
